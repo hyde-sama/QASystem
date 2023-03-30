@@ -21,7 +21,7 @@ public class QaMatcher {
                 QaMatchResult result = new QaMatchResult(qa, matcher);
                 return result;
             }
-        }
+       }
         return null;
     }
 }

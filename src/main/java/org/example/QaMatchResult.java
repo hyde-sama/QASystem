@@ -20,5 +20,6 @@ public class QaMatchResult {
         }
         return answer;
     }
+
 }
 
