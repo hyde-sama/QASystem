@@ -8,7 +8,7 @@ import org.springframework.data.neo4j.core.schema.Relationship;
 import java.util.HashSet;
 import java.util.Set;
 
-@Node
+@Node(labels = "key_word")
 public class KeyWord {
 
     @Id

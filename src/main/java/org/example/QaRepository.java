@@ -11,13 +11,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 
 import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
-public interface QaRepository extends Neo4jRepository<List<Qa>, List<Long>> {
+@Service
+public interface QaRepository extends Neo4jRepository<Qa, Long> {
 
 
     @Query("MATCH (p:key_word)-[r:matchfor]->(q:QandA) WHERE p.name=$name RETURN q")

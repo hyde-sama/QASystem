@@ -10,7 +10,7 @@ spring:
     uri: bolt://localhost:7687/
     authentication:
       username: neo4j
-      password: neo4j
+      password: hy1996128
   datasource:
     url: jdbc:mysql://172.31.252.117:3306/qademo?useSSL=false&useUnicode=true&characterEncoding=UTF8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: qademo
