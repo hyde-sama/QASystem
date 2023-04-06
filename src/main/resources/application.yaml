@@ -6,12 +6,17 @@ server:
     min-response-size: 128
 # 配置主数据源
 spring:
+  neo4j:
+    uri: bolt://localhost:7474
+    authentication:
+      username: neo4j
+      password: neo4j
   datasource:
     url: jdbc:mysql://172.31.252.117:3306/qademo?useSSL=false&useUnicode=true&characterEncoding=UTF8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: qademo
     password: qademo
     driver-class-name: com.mysql.cj.jdbc.Driver
- #    mongodb:
+  #    mongodb:
   #      host: localhost
   #      port: 27017
   #      database: magicapi

@@ -26,7 +26,7 @@
     <dependency>
       <groupId>com.hankcs</groupId>
       <artifactId>hanlp</artifactId>
-      <version>portable-1.7.8</version>
+      <version>portable-1.8.4</version>
     </dependency>
     <dependency>
       <groupId>org.apache.lucene</groupId>
@@ -57,6 +57,30 @@
       <artifactId>spring-boot-starter-jdbc</artifactId>
       <version>2.4.2</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-neo4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-neo4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.baomidou</groupId>
+      <artifactId>mybatis-plus</artifactId>
+      <version>3.4.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+
   </dependencies>
 
 

@@ -1,17 +1,26 @@
 package org.example.entity;
 
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.Relationship;
+
+@Node
 public class Qa {
-    private int id;
+
+    @Id
+    @GeneratedValue
+    private long id;
+
     private String question;
     private String answer;
-    private String pattern;
 
-    public int getId() {
-        return id;
+    public Qa() {
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Qa(String question, String answer) {
+        this.question = question;
+        this.answer = answer;
     }
 
     public String getQuestion() {
@@ -28,13 +37,5 @@ public class Qa {
 
     public void setAnswer(String answer) {
         this.answer = answer;
-    }
-
-    public String getPattern() {
-        return pattern;
-    }
-
-    public void setPattern(String pattern) {
-        this.pattern = pattern;
     }
 }
