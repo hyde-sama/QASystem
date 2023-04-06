@@ -14,8 +14,7 @@ public class HanLPTest {
 
     @Test
     public void Test() {
-        List<Qa> qaList = qaRepository.findByName("关节炎");
-        System.out.println(qaList.toString());
+
     }
 
 }

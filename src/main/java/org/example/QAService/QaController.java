@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/qa")
@@ -17,9 +18,10 @@ public class QaController {
 
     @PostMapping("/ask")
     public String ask(@RequestParam("name") String question) {
-        List<Qa> answer = qaService.findByname(question);
-        String qa = answer.toString();
+        Set<Qa> answer = qaService.findByname(question);
+        String qa = String.format("查询到%d个结果", answer.size());
         return qa;
     }
+
 }
 
