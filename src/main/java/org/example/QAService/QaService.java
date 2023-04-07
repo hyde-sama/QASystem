@@ -18,10 +18,10 @@ public class QaService {
     @Autowired
     private QaRepository qaRepository;
 
-    public Set<Qa> findByname(String name) {
+    public List<Qa> findByname(String name) {
         // 预处理问题
         List<String> key_wordlist = HanLP.extractKeyword(name, 5);
-        Set<Qa> qas = qaRepository.findByKeywords(key_wordlist);
+        List<Qa> qas = qaRepository.findByKeywords(key_wordlist);
 //        if (qas.size()==1||qas.size()==0){
 //            return qas;
 //        }
@@ -38,6 +38,7 @@ public class QaService {
                             toArray(new String[questionKeyWordSet.size()]), key_wordlist.toArray(new String[key_wordlist.size()]));
         }
 
+        return null;
     }
 
 

@@ -18,7 +18,7 @@ public class QaController {
 
     @PostMapping("/ask")
     public String ask(@RequestParam("name") String question) {
-        Set<Qa> answer = qaService.findByname(question);
+        List<Qa> answer = qaService.findByname(question);
         String qa = String.format("查询到%d个结果", answer.size());
         return qa;
     }

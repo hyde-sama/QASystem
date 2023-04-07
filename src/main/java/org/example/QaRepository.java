@@ -11,9 +11,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 
-import javax.sql.DataSource;
+
 import java.util.List;
-import java.util.Set;
+
 
 @Repository
 @Service
@@ -21,5 +21,7 @@ public interface QaRepository extends Neo4jRepository<Qa, Long> {
 
 
     @Query("MATCH (p:key_word)-[r:matchfor]->(q:QandA) WHERE p.name in $keywords RETURN q")
-    Set<Qa> findByKeywords(List<String> keywords);
+    List<Qa> findByKeywords(List<String> keywords);
+
+
 }
