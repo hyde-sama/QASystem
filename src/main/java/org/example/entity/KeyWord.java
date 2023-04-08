@@ -17,11 +17,6 @@ public class KeyWord {
 
     private String name;
 
-    @Relationship(type = "matchfor")
-    private Set<MatchFor> belongsTo = new HashSet<>();
-
-    public KeyWord() {
-    }
 
     public KeyWord(String name) {
         this.name = name;
@@ -31,7 +26,5 @@ public class KeyWord {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+
 }

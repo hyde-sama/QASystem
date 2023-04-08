@@ -7,6 +7,8 @@ import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
+import java.util.List;
+
 @Node(labels = "QandA")
 public class Qa {
 
@@ -17,8 +19,9 @@ public class Qa {
     private String question;
     private String answer;
 
-    public Qa() {
-    }
+    @Relationship(type = "matchfor", direction = Relationship.Direction.INCOMING)
+    private List<KeyWord> keyWords;
+
 
     public Qa(String question, String answer) {
         this.question = question;

@@ -16,11 +16,10 @@ import java.util.List;
 
 
 @Repository
-@Service
 public interface QaRepository extends Neo4jRepository<Qa, Long> {
 
 
-    @Query("MATCH (p:key_word)-[r:matchfor]->(q:QandA) WHERE p.name in $keywords RETURN q")
+    @Query("MATCH (k:key_word)-[r:matchfor]->(q:QandA) WHERE k.name in $keywords RETURN DISTINCT q")
     List<Qa> findByKeywords(List<String> keywords);
 
 
