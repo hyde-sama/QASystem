@@ -19,13 +19,16 @@ public class Qa {
     private String question;
     private String answer;
 
+    private String pic_url;
+
     @Relationship(type = "matchfor", direction = Relationship.Direction.INCOMING)
     private List<KeyWord> keyWords;
 
 
-    public Qa(String question, String answer) {
+    public Qa(String question, String answer, String pic_url) {
         this.question = question;
         this.answer = answer;
+        this.pic_url = pic_url;
     }
 
     public String getQuestion() {
@@ -42,5 +45,13 @@ public class Qa {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public String getPic_url() {
+        return pic_url;
+    }
+
+    public void setPic_url(String pic_url) {
+        this.pic_url = pic_url;
     }
 }

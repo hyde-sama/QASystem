@@ -1,7 +1,7 @@
 package org.example.QAService;
 
 import com.hankcs.hanlp.HanLP;
-import org.example.JaccardSimilarity;
+import org.example.util.JaccardSimilarity;
 import org.example.QaRepository;
 import org.example.entity.Qa;
 import org.springframework.beans.factory.annotation.Autowired;
