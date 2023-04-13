@@ -1,7 +1,6 @@
 package org.example;
 
 import com.hankcs.hanlp.HanLP;
-import org.example.util.FileToNeo;
 import org.example.util.JaccardSimilarity;
 import org.example.util.StringSimilarityCalculator;
 import org.junit.jupiter.api.Test;
@@ -28,7 +27,6 @@ public class HanLPTest {
 
     @Test
     public void Test1() throws IOException {
-        FileToNeo.ReadFileToNeo("C:\\Users\\Lenovo\\Desktop\\工作簿1.xlsx");
-    }
+            }
 
 }

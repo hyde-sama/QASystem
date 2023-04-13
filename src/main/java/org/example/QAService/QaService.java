@@ -52,8 +52,6 @@ public class QaService {
                 result.add(1, (double) i);
             }
         }
-
-
         return result;
     }
 

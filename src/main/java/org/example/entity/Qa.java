@@ -2,6 +2,7 @@ package org.example.entity;
 
 import lombok.Builder;
 import lombok.Data;
+import org.apache.poi.xssf.model.Styles;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -19,16 +20,15 @@ public class Qa {
     private String question;
     private String answer;
 
-    private String pic_url;
 
     @Relationship(type = "matchfor", direction = Relationship.Direction.INCOMING)
     private List<KeyWord> keyWords;
 
 
-    public Qa(String question, String answer, String pic_url) {
+    public Qa(String question, String answer) {
         this.question = question;
         this.answer = answer;
-        this.pic_url = pic_url;
+
     }
 
     public String getQuestion() {
@@ -47,11 +47,25 @@ public class Qa {
         this.answer = answer;
     }
 
-    public String getPic_url() {
-        return pic_url;
+    public List<KeyWord> getKeyWords() {
+        return keyWords;
     }
 
-    public void setPic_url(String pic_url) {
-        this.pic_url = pic_url;
+    public void setKeyWords(List<KeyWord> keyWords) {
+        this.keyWords = keyWords;
+    }
+
+    public boolean addKeyWords(KeyWord keyWord) {
+        return this.keyWords.add(keyWord);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Qa{" +
+                "id=" + id +
+                ", question='" + question + '\'' +
+                ", answer='" + answer + '\'' +
+                '}';
     }
 }
