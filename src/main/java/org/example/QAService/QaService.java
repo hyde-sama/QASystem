@@ -1,11 +1,16 @@
 package org.example.QAService;
 
 import com.hankcs.hanlp.HanLP;
+import org.example.KeyWordRepository;
+import org.example.entity.KeyWord;
 import org.example.util.JaccardSimilarity;
 import org.example.QaRepository;
 import org.example.entity.Qa;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.neo4j.core.Neo4jClient;
+import org.springframework.data.neo4j.core.Neo4jTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -16,9 +21,16 @@ public class QaService {
     @Autowired
     private QaRepository qaRepository;
 
+    @Autowired
+    private KeyWordRepository keywordRepository;
+
+    @Autowired
+    private Neo4jTemplate neo4jTemplate;
+
+
     public String findByname(String name) {
         // 预处理问题
-        List<String> key_wordlist = HanLP.extractKeyword(name, 20);
+        List<String> key_wordlist = HanLP.extractKeyword(name, 100);
         List<Qa> qas = qaRepository.findByKeywords(key_wordlist);
         if (qas.size() == 0) {
             return "抱歉，您的问题我们无法识别。";
@@ -42,7 +54,7 @@ public class QaService {
         result.add(1, -1.0);
         double similarity = 0.0;
         for (int i = 0; i < qas.size(); i++) {
-            List<String> questionKeyWordSet = HanLP.extractKeyword(qas.get(i).getQuestion(), 5);
+            List<String> questionKeyWordSet = HanLP.extractKeyword(qas.get(i).getQuestion(), 100);
             similarity = JaccardSimilarity.
                     similarity(questionKeyWordSet.
                             toArray(new String[questionKeyWordSet.size()]), key_wordlist.toArray(new String[key_wordlist.size()]));
@@ -55,6 +67,30 @@ public class QaService {
         return result;
     }
 
+    @Transactional
+    public Qa saveQa(Qa qa) {
+        // 提取关键字
+        List<String> keywords = HanLP.extractKeyword(qa.getQuestion(), 100);
+
+        // 保存Qa节点
+        Qa savedQa = qaRepository.save(qa);
+
+        // 保存关键字节点和关系
+        for (String keyword : keywords) {
+            KeyWord savedKeyword = keywordRepository.findByName(keyword);
+            if (savedKeyword == null) {
+                savedKeyword = new KeyWord();
+                savedKeyword.setName(keyword);
+                savedKeyword.setQa(savedQa);
+                keywordRepository.save(savedKeyword);
+            } else {
+                savedKeyword.setQa(savedQa);
+                keywordRepository.save(savedKeyword);
+            }
+        }
+
+        return savedQa;
+    }
 
 
 }

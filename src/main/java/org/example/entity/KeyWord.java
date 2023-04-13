@@ -17,10 +17,30 @@ public class KeyWord {
 
     private String name;
 
+    @Relationship(type = "HAS_KEYWORD", direction = Relationship.Direction.OUTGOING)
+    private Qa qa;
 
-    public KeyWord(String name) {
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
         this.name = name;
     }
+
+    public Qa getQa() {
+        return qa;
+    }
+
+    public void setQa(Qa qa) {
+        this.qa = qa;
+    }
+
 
     public String getName() {
         return name;

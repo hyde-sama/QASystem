@@ -21,7 +21,7 @@ public class Qa {
     private String answer;
 
 
-    @Relationship(type = "matchfor", direction = Relationship.Direction.INCOMING)
+    @Relationship(type = "HAS_KEYWORD", direction = Relationship.Direction.INCOMING)
     private List<KeyWord> keyWords;
 
 

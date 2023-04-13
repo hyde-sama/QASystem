@@ -13,12 +13,17 @@ import java.util.UUID;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.xwpf.usermodel.*;
+import org.example.QAService.QaService;
 import org.example.entity.Qa;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 public class DocxParser {
 
     private static final String IMAGE_DIR = "src/main/java/images/";
+
+    @Autowired
+    private static QaService qaService;
 
 
     /**
@@ -123,26 +128,6 @@ public class DocxParser {
     }
 
     public static void main(String[] args) {
-        try {
-            String fileName = "src/main/resources/云HIS常见问题解答.docx";
-            List<String> keywords = new ArrayList<>();
-            keywords.add("问：");
-            FileInputStream fis = new FileInputStream(fileName);
-            XWPFDocument doc = new XWPFDocument(fis);
-            List<List<XWPFParagraph>> parts = splitDocument(doc, keywords);
-            List<Qa> qaList = new ArrayList<>();
-            for (List<XWPFParagraph> part : parts) {
-                qaList.add(StringParseToQa(parseToQa(part)));
-            }
-            for (Qa qa : qaList) {
-
-                System.out.println(qa.getQuestion());
-                System.out.println(qa.getAnswer());
-            }
-            doc.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
 
