@@ -1,11 +1,10 @@
 package org.example.entity;
 
-import org.springframework.data.neo4j.core.schema.GeneratedValue;
-import org.springframework.data.neo4j.core.schema.Id;
-import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Relationship;
+import org.springframework.data.neo4j.core.schema.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Node(labels = "key_word")
@@ -15,11 +14,20 @@ public class KeyWord {
     @GeneratedValue
     private long id;
 
+    @Property(name = "name")
     private String name;
 
     @Relationship(type = "HAS_KEYWORD", direction = Relationship.Direction.OUTGOING)
-    private Qa qa;
+    private List<Qa> qas = new ArrayList<>();
 
+    public KeyWord(String name) {
+        this.name = name;
+    }
+
+    public KeyWord(String name, List<Qa> qas) {
+        this.name = name;
+        this.qas = qas;
+    }
 
     public long getId() {
         return id;
@@ -33,12 +41,17 @@ public class KeyWord {
         this.name = name;
     }
 
-    public Qa getQa() {
-        return qa;
+
+    public List<Qa> getQas() {
+        return qas;
     }
 
-    public void setQa(Qa qa) {
-        this.qa = qa;
+    public void setQas(List<Qa> qas) {
+        this.qas = qas;
+    }
+
+    public boolean addQa(Qa qa) {
+        return this.qas.add(qa);
     }
 
 

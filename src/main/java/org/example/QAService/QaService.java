@@ -70,28 +70,24 @@ public class QaService {
     @Transactional
     public Qa saveQa(Qa qa) {
         // 提取关键字
-        List<String> keywords = HanLP.extractKeyword(qa.getQuestion(), 100);
-
-        // 保存Qa节点
-        Qa savedQa = qaRepository.save(qa);
-
-        // 保存关键字节点和关系
-        for (String keyword : keywords) {
-            KeyWord savedKeyword = keywordRepository.findByName(keyword);
-            if (savedKeyword == null) {
-                savedKeyword = new KeyWord();
-                savedKeyword.setName(keyword);
-                savedKeyword.setQa(savedQa);
-                keywordRepository.save(savedKeyword);
-            } else {
-                savedKeyword.setQa(savedQa);
-                keywordRepository.save(savedKeyword);
-            }
+        List<String> keywordstrlist = HanLP.extractKeyword(qa.getQuestion(), 100);
+        List<KeyWord> keyWords = new ArrayList<>();
+        for (String keyword : keywordstrlist) {
+            keyWords.add(new KeyWord(keyword));
         }
-
-        return savedQa;
+        qa.setKeyWords(keyWords);
+        // 保存关键字节点和关系
+        for (KeyWord keyword : keyWords) {
+            keyword.addQa(qa);
+            keywordRepository.save(keyword);
+        }
+        return qaRepository.save(qa);
     }
-
-
 }
+
+
+
+
+
+
 

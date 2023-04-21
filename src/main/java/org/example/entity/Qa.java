@@ -3,10 +3,7 @@ package org.example.entity;
 import lombok.Builder;
 import lombok.Data;
 import org.apache.poi.xssf.model.Styles;
-import org.springframework.data.neo4j.core.schema.GeneratedValue;
-import org.springframework.data.neo4j.core.schema.Id;
-import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Relationship;
+import org.springframework.data.neo4j.core.schema.*;
 
 import java.util.List;
 
@@ -17,7 +14,9 @@ public class Qa {
     @GeneratedValue
     private long id;
 
+    @Property(name = "question")
     private String question;
+    @Property(name = "answer")
     private String answer;
 
 
