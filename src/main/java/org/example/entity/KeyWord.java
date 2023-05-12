@@ -3,9 +3,8 @@ package org.example.entity;
 import org.springframework.data.neo4j.core.schema.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 @Node(labels = "key_word")
 public class KeyWord {
@@ -19,6 +18,7 @@ public class KeyWord {
 
     @Relationship(type = "HAS_KEYWORD", direction = Relationship.Direction.OUTGOING)
     private List<Qa> qas = new ArrayList<>();
+
 
     public KeyWord(String name) {
         this.name = name;
@@ -51,6 +51,9 @@ public class KeyWord {
     }
 
     public boolean addQa(Qa qa) {
+        if (qas == null) {
+            qas = new ArrayList<>();
+        }
         return this.qas.add(qa);
     }
 

@@ -1,18 +1,24 @@
 package org.example.QAService;
 
+import cn.hutool.core.lang.Dict;
 import com.hankcs.hanlp.HanLP;
+import com.jayway.jsonpath.Criteria;
 import org.example.KeyWordRepository;
 import org.example.entity.KeyWord;
 import org.example.util.JaccardSimilarity;
 import org.example.QaRepository;
 import org.example.entity.Qa;
+import org.neo4j.driver.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.neo4j.core.Neo4jClient;
 import org.springframework.data.neo4j.core.Neo4jTemplate;
+import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class QaService {
@@ -28,12 +34,12 @@ public class QaService {
     private Neo4jTemplate neo4jTemplate;
 
 
-    public String findByname(String name) {
+    public Dict findByname(String name) {
         // 预处理问题
         List<String> key_wordlist = HanLP.extractKeyword(name, 100);
         List<Qa> qas = qaRepository.findByKeywords(key_wordlist);
         if (qas.size() == 0) {
-            return "抱歉，您的问题我们无法识别。";
+            return Dict.create().set("Flag", 2).set("Data", "抱歉，您的问题我们无法识别。");
         }
         List<Double> result = keyWord_Compare(qas, key_wordlist);
         if (result.get(1) == -1.0) {
@@ -42,10 +48,10 @@ public class QaService {
             for (int i = 0; i < qas.size(); i++) {
                 guess_question.append(String.format("%d、%s\n", i + 1, qas.get(i).getQuestion()));
             }
-            return guess_question.toString();
+            return Dict.create().set("Flag", 1).set("Data", guess_question.toString());
         }
 
-        return qas.get(result.get(1).intValue()).getAnswer();
+        return Dict.create().set("Flag", 0).set("Data", qas.get(result.get(1).intValue()).getAnswer());
     }
 
     public List<Double> keyWord_Compare(List<Qa> qas, List<String> key_wordlist) {
@@ -68,20 +74,32 @@ public class QaService {
     }
 
     @Transactional
-    public Qa saveQa(Qa qa) {
-        // 提取关键字
-        List<String> keywordstrlist = HanLP.extractKeyword(qa.getQuestion(), 100);
-        List<KeyWord> keyWords = new ArrayList<>();
-        for (String keyword : keywordstrlist) {
-            keyWords.add(new KeyWord(keyword));
+    public void saveQa(Qa qa) {
+        Qa existingQa = qaRepository.findByQuestion(qa.getQuestion());
+        if (existingQa != null) {
+            // 存在同属性Qa
+        } else {
+            List<String> keywordstrlist = HanLP.extractKeyword(qa.getQuestion(), 100);
+            List<KeyWord> keyWords = new ArrayList<>();
+            keywordstrlist.forEach(keyWord -> {
+                keyWords.add(new KeyWord(keyWord));
+            });
+            keyWords.forEach(keyWord -> {
+                qa.addKeyWords(keyWord);
+                keyWord.addQa(qa);
+                neo4jTemplate.save(keyWord);
+            });
+
+
+//            qa.setKeyWords(keyWords);
+//            neo4jTemplate.save(qa);
         }
-        qa.setKeyWords(keyWords);
-        // 保存关键字节点和关系
-        for (KeyWord keyword : keyWords) {
-            keyword.addQa(qa);
-            keywordRepository.save(keyword);
-        }
-        return qaRepository.save(qa);
+    }
+
+
+    public Boolean merge() {
+        Integer hasDuplicate = qaRepository.mergeQa() + keywordRepository.mergeKeyWord() + qaRepository.mergeRelationShip();
+        return hasDuplicate > 0;
     }
 }
 

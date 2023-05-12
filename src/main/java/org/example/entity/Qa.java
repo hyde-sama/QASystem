@@ -5,6 +5,7 @@ import lombok.Data;
 import org.apache.poi.xssf.model.Styles;
 import org.springframework.data.neo4j.core.schema.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Node(labels = "QandA")
@@ -23,11 +24,23 @@ public class Qa {
     @Relationship(type = "HAS_KEYWORD", direction = Relationship.Direction.INCOMING)
     private List<KeyWord> keyWords;
 
+    public Qa() {
+    }
 
     public Qa(String question, String answer) {
         this.question = question;
         this.answer = answer;
 
+    }
+
+    public Qa(String question, String answer, List<KeyWord> keyWords) {
+        this.question = question;
+        this.answer = answer;
+        this.keyWords = keyWords;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getQuestion() {
@@ -55,6 +68,9 @@ public class Qa {
     }
 
     public boolean addKeyWords(KeyWord keyWord) {
+        if (keyWords == null) {
+            keyWords = new ArrayList<>();
+        }
         return this.keyWords.add(keyWord);
     }
 

@@ -126,8 +126,5 @@ public class DocxParser {
         Qa qa = new Qa(strings[1], strings[2]);
         return qa;
     }
-
-    public static void main(String[] args) {
-    }
 }
 
